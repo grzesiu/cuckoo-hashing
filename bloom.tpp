@@ -1,11 +1,44 @@
 #include "bloom.hpp"
+#include <random>
 
 template <typename T>
 Bloom<T>::Bloom(uint64_t size, uint8_t num_hashes) : size(size),
-                                                     num_hashes(num_hashes) {}
+                                                     num_hashes(num_hashes)
+{
+    while(hashes.size() < num_hashes)
+    {
+        hashes.insert(hash(rand(), rand(), size));
+    }
+}
 
 template <typename T>
-int Bloom<T>::get_size()
+void Bloom<T>::add(const T &item)
 {
-    return bs.size();
+    std::hash<T> h;
+    uint64_t x = h(item);
+    for (auto const &hash : hashes)
+    {
+        bs.set(hash(x), true);
+    }
+}
+
+template <typename T>
+bool Bloom<T>::can_contain(const T &item) const
+{  
+    std::hash<T> h;
+    uint64_t x = h(item);
+    for (auto const &hash : hashes)
+    {
+        if (!bs.test(hash(x)))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+template <typename T>
+boost::dynamic_bitset<> const& Bloom<T>::get_bs() const
+{
+    return bs;
 }
