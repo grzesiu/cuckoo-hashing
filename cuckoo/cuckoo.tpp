@@ -10,6 +10,26 @@ Cuckoo<T>::Cuckoo(int length) : length(length)
     h2 = hash<T>(rand(), rand(), length);
 }
 
+template <typename T>
+typename Cuckoo<T>::iterator Cuckoo<T>::insert(const T &val)
+{
+    return insert(val, 0);
+}
+
+template <typename T>
+typename Cuckoo<T>::iterator Cuckoo<T>::insert(const T &val, int table) {}
+
+template <typename T>
+typename Cuckoo<T>::iterator Cuckoo<T>::find(const T &val) const {}
+
+template <typename T>
+typename Cuckoo<T>::iterator Cuckoo<T>::erase(iterator position) {}
+
+template <typename T>
+typename Cuckoo<T>::iterator Cuckoo<T>::begin() {}
+
+template <typename T>
+typename Cuckoo<T>::iterator Cuckoo<T>::end() {}
 
 template <typename T>
 const T &Cuckoo<T>::iterator::operator*() const

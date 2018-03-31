@@ -7,11 +7,6 @@
 template <typename T>
 class Cuckoo
 {
-  int length;
-  T *array;
-  hash<T> h1;
-  hash<T> h2;
-
 public:
   class iterator : public std::iterator<std::input_iterator_tag,
                                         T, ptrdiff_t, const T *, const T &>
@@ -28,8 +23,18 @@ public:
   };
 
   Cuckoo(int length);
+  iterator insert(const T &val);
+  iterator find(const T &val) const;
+  iterator erase(iterator position);
   iterator begin();
   iterator end();
+
+private:
+  int length;
+  T *array;
+  hash<T> h1;
+  hash<T> h2;
+  iterator insert(const T &val, int table);
 };
 
 #include "cuckoo.tpp"
