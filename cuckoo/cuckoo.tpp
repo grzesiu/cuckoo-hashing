@@ -7,6 +7,11 @@ Cuckoo<T>::Cuckoo(int length, int num_hashes) : length(length), num_hashes(num_h
     items_array = new T[num_hashes * length];
     usage_array = new bool[num_hashes * length];
     hashes_array = new hash<T>[num_hashes];
+    srand(time(NULL));
+    for (int i = 0; i < num_hashes; i++)
+    {
+        hashes_array[i] = hash<T>(rand(), rand(), length);
+    }
 }
 
 template <typename T>
@@ -18,6 +23,18 @@ typename Cuckoo<T>::iterator Cuckoo<T>::insert(const T &val)
 template <typename T>
 typename Cuckoo<T>::iterator Cuckoo<T>::insert(const T &val, int array)
 {
+    int i = hashes_array[array](val);
+    if (usage_array[i])
+    {
+        insert(items_array[i], (array++) % num_hashes);
+        items_array[i] = val;
+    }
+    else
+    {
+        items_array[i] = val;
+        usage_array[i] = true;        
+    }
+    return iterator(i);
 }
 
 template <typename T>
