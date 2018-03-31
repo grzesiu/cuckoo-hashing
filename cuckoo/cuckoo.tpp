@@ -4,8 +4,8 @@
 template <typename T>
 Cuckoo<T>::Cuckoo(int length) : length(length)
 {
-    items_list = new T[2 * length];
-    usage_list = new bool[2 * length];
+    items_array = new T[2 * length];
+    usage_array = new bool[2 * length];
     srand(time(NULL));
     h1 = hash<T>(rand(), rand(), length);
     h2 = hash<T>(rand(), rand(), length);
@@ -18,7 +18,7 @@ typename Cuckoo<T>::iterator Cuckoo<T>::insert(const T &val)
 }
 
 template <typename T>
-typename Cuckoo<T>::iterator Cuckoo<T>::insert(const T &val, int table)
+typename Cuckoo<T>::iterator Cuckoo<T>::insert(const T &val, int array)
 {
 }
 

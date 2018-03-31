@@ -31,11 +31,11 @@ public:
 
 private:
   int length;
-  T *items_list;
-  bool *usage_list;
+  T *items_array;
+  bool *usage_array;
   hash<T> h1;
   hash<T> h2;
-  iterator insert(const T &val, int table);
+  iterator insert(const T &val, int array);
 };
 
 #include "cuckoo.tpp"
