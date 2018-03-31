@@ -5,6 +5,6 @@
 
 int main()
 {
-    Cuckoo<int> c(100);
+    Cuckoo<int> c(100, 2);
     return 0;
 }

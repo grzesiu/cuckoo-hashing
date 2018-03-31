@@ -22,7 +22,7 @@ public:
     bool operator!=(iterator const &other) const;
   };
 
-  Cuckoo(int length);
+  Cuckoo(int length, int num_hashes);
   iterator insert(const T &val);
   iterator find(const T &val) const;
   iterator erase(iterator position);
@@ -30,11 +30,10 @@ public:
   iterator end();
 
 private:
-  int length;
+  int length, num_hashes;
   T *items_array;
   bool *usage_array;
-  hash<T> h1;
-  hash<T> h2;
+  hash<T> *hashes_array;
   iterator insert(const T &val, int array);
 };
 

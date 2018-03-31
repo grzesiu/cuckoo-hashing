@@ -2,13 +2,11 @@
 #include <time.h>
 
 template <typename T>
-Cuckoo<T>::Cuckoo(int length) : length(length)
+Cuckoo<T>::Cuckoo(int length, int num_hashes) : length(length), num_hashes(num_hashes)
 {
-    items_array = new T[2 * length];
-    usage_array = new bool[2 * length];
-    srand(time(NULL));
-    h1 = hash<T>(rand(), rand(), length);
-    h2 = hash<T>(rand(), rand(), length);
+    items_array = new T[num_hashes * length];
+    usage_array = new bool[num_hashes * length];
+    hashes_array = new hash<T>[num_hashes];
 }
 
 template <typename T>
