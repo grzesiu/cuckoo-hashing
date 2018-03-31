@@ -31,7 +31,8 @@ public:
 
 private:
   int length;
-  T *array;
+  T *items_list;
+  bool *usage_list;
   hash<T> h1;
   hash<T> h2;
   iterator insert(const T &val, int table);
