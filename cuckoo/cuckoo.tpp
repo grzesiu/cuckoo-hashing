@@ -1,9 +1,15 @@
-#include "cuckoo.hpp"
+#include <stdlib.h>
+#include <time.h>
 
 template <typename T>
-Cuckoo<T>::Cuckoo(int length) : length(length) {
+Cuckoo<T>::Cuckoo(int length) : length(length)
+{
     array = new T[2 * length];
+    srand(time(NULL));
+    h1 = hash<T>(rand(), rand(), length);
+    h2 = hash<T>(rand(), rand(), length);
 }
+
 
 template <typename T>
 const T &Cuckoo<T>::iterator::operator*() const
