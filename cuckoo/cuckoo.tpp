@@ -1,15 +1,19 @@
+#include <iostream>
 #include <stdlib.h>
 #include <time.h>
 
 template <typename T>
 Cuckoo<T>::Cuckoo(int length, int num_hashes) : length(length), num_hashes(num_hashes)
 {
-    items_array = new T[num_hashes * length];
-    usage_array = new bool[num_hashes * length];
+    items_array = new T *[num_hashes];
+    usage_array = new bool *[num_hashes];
     hashes_array = new hash<T>[num_hashes];
+
     srand(time(NULL));
     for (int i = 0; i < num_hashes; i++)
     {
+        items_array[i] = new T[length];
+        usage_array[i] = new bool[length];
         hashes_array[i] = hash<T>(rand(), rand(), length);
     }
 }
@@ -21,20 +25,20 @@ typename Cuckoo<T>::iterator Cuckoo<T>::insert(const T &val)
 }
 
 template <typename T>
-typename Cuckoo<T>::iterator Cuckoo<T>::insert(const T &val, int array)
+typename Cuckoo<T>::iterator Cuckoo<T>::insert(const T &val, const int array)
 {
     int i = hashes_array[array](val);
-    if (usage_array[i])
+    if (usage_array[array][i])
     {
-        insert(items_array[i], (array++) % num_hashes);
-        items_array[i] = val;
+        insert(items_array[array][i], (array + 1) % num_hashes);
+        items_array[array][i] = val;
     }
     else
     {
-        items_array[i] = val;
-        usage_array[i] = true;        
+        items_array[array][i] = val;
+        usage_array[array][i] = true;
     }
-    return iterator(i);
+    return iterator(array, i);
 }
 
 template <typename T>
@@ -50,6 +54,23 @@ template <typename T>
 typename Cuckoo<T>::iterator Cuckoo<T>::end() {}
 
 template <typename T>
+void Cuckoo<T>::print_arrays() const
+{
+    for (int n = 0; n < num_hashes; n++)
+    {
+        std::cout << n << std::endl;
+        for (int i = 0; i < length; i++)
+        {
+            std::cout << items_array[n][i] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
+template <typename T>
+Cuckoo<T>::iterator::iterator(int array, int i) : array(array), i(i) {}
+
+template <typename T>
 const T &Cuckoo<T>::iterator::operator*() const
 {
 }
@@ -63,6 +84,12 @@ template <typename T>
 typename Cuckoo<T>::iterator &Cuckoo<T>::iterator::operator++()
 {
     i++;
+    if (i == length)
+    {
+        i = 0;
+        array = (array + 1) % num_hashes;
+    }
+    return *this;
 }
 
 template <typename T>

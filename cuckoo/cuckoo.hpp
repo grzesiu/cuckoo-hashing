@@ -11,9 +11,10 @@ public:
   class iterator : public std::iterator<std::input_iterator_tag,
                                         T, ptrdiff_t, const T *, const T &>
   {
-    int i;
+    int array, i;
 
   public:
+    iterator(int array, int i);
     const T &operator*() const;
     const T *operator->() const;
     iterator &operator++();
@@ -28,13 +29,14 @@ public:
   iterator erase(iterator position);
   iterator begin();
   iterator end();
+  void print_arrays() const;
 
 private:
   int length, num_hashes;
-  T *items_array;
-  bool *usage_array;
+  T **items_array;
+  bool **usage_array;
   hash<T> *hashes_array;
-  iterator insert(const T &val, int array);
+  iterator insert(const T &val, const int array);
 };
 
 #include "cuckoo.tpp"
