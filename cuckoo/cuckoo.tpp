@@ -21,24 +21,31 @@ Cuckoo<T>::Cuckoo(int length, int num_hashes) : length(length), num_hashes(num_h
 template <typename T>
 typename Cuckoo<T>::iterator Cuckoo<T>::insert(const T &val)
 {
-    return insert(val, 0);
+    return insert(val, 0, 0);
 }
 
 template <typename T>
-typename Cuckoo<T>::iterator Cuckoo<T>::insert(const T &val, const int array)
+typename Cuckoo<T>::iterator Cuckoo<T>::insert(const T &val, const int array, const int count)
 {
-    int i = hashes_array[array](val);
-    if (usage_array[array][i])
+    if (count > num_hashes * length)
     {
-        insert(items_array[array][i], (array + 1) % num_hashes);
-        items_array[array][i] = val;
+        std::cout << "rehaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaashing" << std::endl;
     }
     else
     {
-        items_array[array][i] = val;
-        usage_array[array][i] = true;
+        int i = hashes_array[array](val);
+        if (usage_array[array][i])
+        {
+            insert(items_array[array][i], (array + 1) % num_hashes, count + 1);
+            items_array[array][i] = val;
+        }
+        else
+        {
+            items_array[array][i] = val;
+            usage_array[array][i] = true;
+        }
+        return iterator(array, i);
     }
-    return iterator(array, i);
 }
 
 template <typename T>

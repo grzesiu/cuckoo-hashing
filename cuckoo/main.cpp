@@ -18,7 +18,7 @@ void test_insert(Cuckoo<int> &c)
 
 int main()
 {
-    Cuckoo<int> c(9, 2);
+    Cuckoo<int> c(6, 2);
     test_insert(c);
     return 0;
 }
