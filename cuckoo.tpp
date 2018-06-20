@@ -51,7 +51,7 @@ typename Cuckoo<T>::iterator Cuckoo<T>::insert(const T &val, const int array, co
 template <typename T>
 void Cuckoo<T>::rehash()
 {
-    std::cout << "rrrrreeeeehhhhaaaasssshhhhiiiinnnnggggggggggg" << std::endl;
+    std::cout << "rehashing" << std::endl;
 }
 
 template <typename T>
